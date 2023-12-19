@@ -25,5 +25,5 @@ jobs:
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - name: Build vendordep 
         run: (cd vendor-template && ./gradlew publish --max-workers 1)
-      - Name: Build robot project
+      - name: Build robot project
         run: ./gradlew build --max-workers 1
