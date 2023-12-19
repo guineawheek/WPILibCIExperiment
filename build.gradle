@@ -100,3 +100,13 @@ wpi.java.configureTestTasks(test)
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
 }
+
+task printRepos {
+    doFirst {
+        project.repositories { repositories -> 
+            repositories.forEach { repo -> 
+                println("${repo.name}: ${repo.url}")
+            }           
+        }
+    }
+}

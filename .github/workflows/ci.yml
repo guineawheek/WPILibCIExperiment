@@ -34,5 +34,7 @@ jobs:
       - name: Fetch all history and metadata
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      - name: Print Maven repos
+        run: ./gradlew printRepos
       - name: Build with Gradle
         run: ./gradlew build --max-workers 1 ${{ matrix.build-options }}
