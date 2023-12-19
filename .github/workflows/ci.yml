@@ -34,6 +34,6 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - name: Compile the example vendordep
-        run: cd vendor-template && ./gradlew publish --max-workers 1 ${{ matrix.build-options }}
+        run: cd vendor-template && ./gradlew publish --max-workers 1
       - name: Build with Gradle
-        run: ./gradlew build --max-workers 1 ${{ matrix.build-options }}
+        run: ./gradlew build --max-workers 1

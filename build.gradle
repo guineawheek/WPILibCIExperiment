@@ -105,17 +105,24 @@ task printRepos {
     doFirst {
         project.repositories { repositories -> 
             repositories.forEach { repo -> 
-                println("${repo.name}: ${repo.url}")
+                println("${repositories.size()}, ${repo.name}: ${repo.url}")
             }           
         }
     }
 }
 
-// This adds the built vendor template to the thing
+// This adds the built vendor template to the project
 repositories {
     maven {
         name 'localVdep'
-        //url "file:/$rootDir/vendor-template/build/repos/releases"
         url new File(rootDir, "vendor-template/build/repos/releases")
+    }
+}
+
+// Remove the WPILocal Maven (e.g. the ones in ${HOME}/wpilib/${YEAR}/maven) from the list
+// as to not use conflicting versions of on-disk vendordeps that may exist.
+afterEvaluate {
+    project.repositories.removeAll {
+        it.name.equals("WPILocal")
     }
 }
