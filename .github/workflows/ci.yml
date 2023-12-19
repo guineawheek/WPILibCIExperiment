@@ -1,0 +1,38 @@
+name: CI
+
+on: [push]
+
+#on: [workflow_dispatch]
+
+#on: 
+#  workflow_dispatch:
+#  push:
+#    tags:
+#      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+
+jobs:
+  build-docker:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - container: wpilib/roborio-cross-ubuntu:2024-22.04
+            artifact-name: Athena
+            build-options: "-Ponlylinuxathena"
+          - container: wpilib/ubuntu-base:22.04
+            artifact-name: Linux
+            build-options: ""
+    name: "Build - ${{ matrix.artifact-name }}"
+    runs-on: ubuntu-latest
+    container: ${{ matrix.container }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+      - name: Fetch all history and metadata
+        run: |
+          git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
+      - name: Build with Gradle
+        run: ./gradlew build --max-workers 1 ${{ matrix.build-options }}
