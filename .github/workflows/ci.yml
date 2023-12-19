@@ -10,18 +10,15 @@ on: [push]
 #    tags:
 #      - 'v[0-9]+.[0-9]+.[0-9]+'
 
-env:
-  YEAR: 2024
-
 jobs:
   build-docker:
     strategy:
       fail-fast: false
       matrix:
         include:
-          - container: "wpilib/roborio-cross-ubuntu:$YEAR-22.04"
-            artifact-name: Athena
-            build-options: "-Ponlylinuxathena"
+          #- container: "wpilib/roborio-cross-ubuntu:2024-22.04"
+          #  artifact-name: Athena
+          #  build-options: "-Ponlylinuxathena"
           - container: wpilib/ubuntu-base:22.04
             artifact-name: Linux
             build-options: ""
@@ -36,9 +33,7 @@ jobs:
       - name: Fetch all history and metadata
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      - name: Print Maven repos
-        run: ./gradlew printRepos && id
-      - name: Compile and install the example vendordep
-        run: YEAR=$YEAR ./build_vdep.sh
+      - name: Compile the example vendordep
+        run: cd vendor-template && ./gradlew publish --max-workers 1 ${{ matrix.build-options }}
       - name: Build with Gradle
         run: ./gradlew build --max-workers 1 ${{ matrix.build-options }}

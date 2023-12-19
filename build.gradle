@@ -110,3 +110,12 @@ task printRepos {
         }
     }
 }
+
+// This adds the built vendor template to the thing
+repositories {
+    maven {
+        name 'localVdep'
+        //url "file:/$rootDir/vendor-template/build/repos/releases"
+        url new File(rootDir, "vendor-template/build/repos/releases")
+    }
+}
