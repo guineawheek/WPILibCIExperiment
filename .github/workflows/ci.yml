@@ -35,6 +35,6 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - name: Print Maven repos
-        run: ./gradlew printRepos
+        run: ./gradlew printRepos && (ls -lh /root/wpilib/2024/maven || true)
       - name: Build with Gradle
         run: ./gradlew build --max-workers 1 ${{ matrix.build-options }}
