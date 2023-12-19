@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - container: wpilib/roborio-cross-ubuntu:$YEAR-22.04
+          - container: "wpilib/roborio-cross-ubuntu:$YEAR-22.04"
             artifact-name: Athena
             build-options: "-Ponlylinuxathena"
           - container: wpilib/ubuntu-base:22.04
@@ -37,7 +37,7 @@ jobs:
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
       - name: Print Maven repos
-        run: ./gradlew printRepos && (ls -lh /root/wpilib/2024/maven || true)
+        run: ./gradlew printRepos && id
       - name: Compile and install the example vendordep
         run: YEAR=$YEAR ./build_vdep.sh
       - name: Build with Gradle
