@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.vendor.jni.VendorJNI;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class, specifically it contains
@@ -35,6 +36,8 @@ public class Robot extends TimedRobot {
     m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
+
+    VendorJNI.initialize();
   }
 
   @Override
