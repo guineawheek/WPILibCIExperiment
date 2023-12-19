@@ -12,19 +12,9 @@ on: [push]
 
 jobs:
   build-docker:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          #- container: "wpilib/roborio-cross-ubuntu:2024-22.04"
-          #  artifact-name: Athena
-          #  build-options: "-Ponlylinuxathena"
-          - container: wpilib/ubuntu-base:22.04
-            artifact-name: Linux
-            build-options: ""
-    name: "Build - ${{ matrix.artifact-name }}"
+    name: "Build"
+    container: "wpilib/roborio-cross-ubuntu:2024-22.04"
     runs-on: ubuntu-latest
-    container: ${{ matrix.container }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,5 +23,7 @@ jobs:
       - name: Fetch all history and metadata
         run: |
           git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-      - name: Build everything
-        run: (cd vendor-template && ./gradlew publish --max-workers 1) && ./gradlew build --max-workers 1
+      - name: Build vendordep 
+        run: (cd vendor-template && ./gradlew publish --max-workers 1)
+      - Name: Build robot project
+        run: ./gradlew build --max-workers 1
